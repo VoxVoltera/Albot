@@ -1,0 +1,10 @@
+{
+    "decay_interval": 172800,
+    "decay_rate": 1,
+    "timeout_minutes": 10000,
+    "punishments": {
+        "5": "warn",
+        "10": "timeout",
+        "20": "ban"
+    }
+}

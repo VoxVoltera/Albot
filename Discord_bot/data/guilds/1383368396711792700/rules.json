@@ -1,0 +1,58 @@
+{
+    "1": {
+        "name": "Discord ToS",
+        "points": 15
+    },
+    "2": {
+        "name": "NSFW",
+        "points": 5
+    },
+    "3": {
+        "name": "inpersonation of admin",
+        "points": 25
+    },
+    "4": {
+        "name": "discrimination",
+        "points": 10
+    },
+    "5": {
+        "name": "political or religious debates",
+        "points": 7
+    },
+    "6": {
+        "name": "doxxing",
+        "points": 17
+    },
+    "7": {
+        "name": "drama",
+        "points": 3
+    },
+    "8": {
+        "name": "english only",
+        "points": 2
+    },
+    "9": {
+        "name": "public outburts of complaints",
+        "points": 7
+    },
+    "10": {
+        "name": "epilepsy",
+        "points": 2
+    },
+    "11": {
+        "name": "bots",
+        "points": 6
+    },
+    "12": {
+        "name": "usernames",
+        "points": 13
+    },
+    "13": {
+        "name": "spam",
+        "points": 10
+    },
+    "16": {
+        "name": "competing on offence scores",
+        "points": 25
+    }
+}
