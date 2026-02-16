@@ -77,7 +77,7 @@ def register(bot):
         )
         print("it worked")
 
-    @bot.listener.on_message_event
+    
     async def removerank_command(room, event, match):
 
                 # At this point, match.command.lower() == "removerank"
