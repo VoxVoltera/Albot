@@ -2,6 +2,7 @@ import simplematrixbotlib as botlib
 import os
 from dotenv import load_dotenv
 from commands.admin import ping, echo
+from commands.personal.level import level_storage
 
 
 load_dotenv()
