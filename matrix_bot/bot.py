@@ -5,7 +5,7 @@ import simplematrixbotlib as botlib
 from commands.admin.ping import Ping
 from commands.admin.echo import Echo
 from commands.admin.purge import Purge
-from commands.fun.pp import PP
+from commands.fun.pp import Pp
 from commands.personal.rank import Rank
 
 load_dotenv()
@@ -26,8 +26,8 @@ bot = botlib.Bot(
 )
 
 # Instantiate command handlers (classes)
-#rank_cmd = Rank(bot)     # handles XP + all rank commands
-pp_cmd = PP(bot)
+rank_cmd = Rank(bot)     # handles XP + all rank commands
+pp_cmd = Pp(bot)
 ping_cmd = Ping(bot)
 echo_cmd = Echo(bot)
 purge_cmd = Purge(bot)
@@ -45,8 +45,8 @@ async def all_commands(room, event):
 
     cmd = match.command
 
-    # if cmd == "rank":
-        # await rank_cmd.rank_command(room, event, match)
+    if cmd == "rank":
+        await rank_cmd.rank_command(room, event, match)
     elif cmd == "initrank":
         await rank_cmd.initrank_command(room, event, match)
     elif cmd == "removerank":

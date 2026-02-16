@@ -1,5 +1,5 @@
 
-class Ping:
+class Echo:
     def __init__(self, bot):
         self.bot = bot
 
