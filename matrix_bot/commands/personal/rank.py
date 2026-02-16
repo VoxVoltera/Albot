@@ -1,5 +1,7 @@
 import random
 from commands.personal.levels import level_storage
+import simplematrixbotlib as botlib
+
 
 
 def register(bot):
@@ -10,7 +12,7 @@ def register(bot):
 
     @bot.listener.on_message_event
     async def on_event(room, event):
-
+        match = botlib.MessageMatch(room, event, bot, "!")
         # Ignore events from the bot itself
         if match.is_not_from_this_bot():
             return
