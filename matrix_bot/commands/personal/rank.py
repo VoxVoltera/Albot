@@ -39,27 +39,32 @@ def register(bot):
     @bot.listener.on_message_event
     async def rank_command(room, event):
         match = botlib.MessageMatch(room, event, bot, "!")
-        # Ignore events from the bot itself
-        if match.is_not_from_this_bot():
 
-            if not match.command == "rank":
-                print("seb likes men")  # debug print
-                return
+        # Ignore messages from the bot itself
+        if not match.is_not_from_this_bot():
+            return
 
-            room_id = room.room_id
-            parts = body.split()
-            target_user = parts[1] if len(parts) > 1 else event.sender
+        # Only handle !rank
+        if match.command != "rank":
+            print("seb likes men")  # debug print
+            return
 
-            data = level_storage.get_user_data(room_id, target_user)
-            if not data:
-                data = {"xp": 0, "events": 0}
+        room_id = room.room_id
 
-            level = calc_level(data["xp"])
+        # Target user: first argument, or fallback to sender
+        target_user = match.args[0] if len(match.args) >= 1 else event.sender
 
-            await bot.api.send_text_event(
-                room_id,
-                f"**{target_user}**\nLevel: `{level}`\nXP: `{data['xp']}`"
-            )
+        # Get or initialize user data
+        data = level_storage.get_user_data(room_id, target_user)
+        if not data:
+            data = {"xp": 0, "messages": 0}
+
+        level = calc_level(data["xp"])
+
+        await bot.api.send_text_message(
+            room_id,
+            f"**{target_user}**\nLevel: `{level}`\nXP: `{data['xp']}`"
+        )
 
     @bot.listener.on_message_event
     async def initrank_command(room, event):
