@@ -6,13 +6,14 @@ load_dotenv()
 
 config = botlib.Config()
 config.load_toml("conf.toml")
+PREFIX = '/'
 
 creds = botlib.Creds(
     homeserver=os.getenv("SERVER_URL"),
     username="albot",
     password=os.getenv("PASSWORD"),
     session_stored_file="session.txt"
-    )
+)
 
 bot = botlib.Bot(
     creds=creds,
