@@ -27,6 +27,7 @@ async def room_joined(room_id):
 
 ping.register(bot)
 rank.register(bot)
+echo.register(bot)
 
 bot.run()
 
