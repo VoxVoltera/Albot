@@ -36,30 +36,26 @@ async def all_commands(room, event):
 
     cmd = match.command
 
-    rank.register.on_event(room, event)
 
     if cmd == "rank":
-        await rank.register.rank_command(room, event, match)
+        await rank.register(bot).rank_command(room, event, match)
     elif cmd == "initrank":
-        await rank.register.initrank_command(room, event, match)
+        await rank.register(bot).initrank_command(room, event, match)
     elif cmd == "removerank":
-        await rank.register.removerank_command(room, event, match)
+        await rank.register(bot).removerank_command(room, event, match)
     elif cmd == "leaderboard":
-        await rank.register.leaderboard_command(room, event, match)
+        await rank.register(bot).leaderboard_command(room, event, match)
     elif cmd == "pp":
-        await pp.register.pp(room, event, match)
+        await pp.register(bot).pp(room, event, match)
     elif cmd == "ping":
-        await ping.register.ping(room, event, match)
+        await ping.register(bot).ping(room, event, match)
     elif cmd == "echo":
-        await echo.register.echo(room, event, match)
+        await echo.register(bot).echo(room, event, match)
     elif cmd == "purge":
-        await purge.register.purge(room, event, match)
+        await purge.register(bot).purge(room, event, match)
 
-ping.register(bot)
-purge.register(bot)
-echo.register(bot)
-pp.register(bot)
-rank.register(bot)
+    rank.register(bot).on_event(room, event)
+
 
 bot.run()
 
