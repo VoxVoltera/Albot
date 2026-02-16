@@ -75,6 +75,7 @@ def register(bot):
 
         body = event.content.body.strip()
         if not body.startswith("!initrank"):
+            print("seb likes men")
             return
 
         room_id = room.room_id
@@ -85,6 +86,7 @@ def register(bot):
 
         # Admin check
         if not await is_admin(bot, room_id, event.sender):
+            print("invalid credentials")
             return
 
         target_user = parts[1]
