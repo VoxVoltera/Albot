@@ -12,12 +12,16 @@ creds = botlib.Creds(
     username="albot",
     password=os.getenv("PASSWORD"),
     session_stored_file="session.txt"
-    )
+)
 
 bot = botlib.Bot(
     creds=creds,
     config=config
 )
+
+@bot.listener.on_startup
+async def room_joined(room_id):
+    print(f"This account is a member of a room with the id {room_id}")
 
 bot.run()
 
