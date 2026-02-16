@@ -43,23 +43,26 @@ async def all_commands(room, event):
     if not match.is_not_from_this_bot():
         return
 
-    cmd = match.command
+    # Only react to messages that actually start with "!"
+    if not match.prefix():
+        return
 
-    if cmd == "rank":
+    if match.command("rank"):
         await rank_cmd.rank_command(room, event, match)
-    elif cmd == "initrank":
+    elif match.command("initrank"):
         await rank_cmd.initrank_command(room, event, match)
-    elif cmd == "removerank":
+    elif match.command("removerank"):
         await rank_cmd.removerank_command(room, event, match)
-    elif cmd == "leaderboard":
+    elif match.command("leaderboard"):
         await rank_cmd.leaderboard_command(room, event, match)
-    elif cmd == "pp":
+    elif match.command("pp"):
         await pp_cmd.pp(room, event, match)
-    elif cmd == "ping":
+    elif match.command("ping"):
         await ping_cmd.ping(room, event, match)
-    elif cmd == "echo":
+    elif match.command("echo"):
         await echo_cmd.echo(room, event, match)
-    elif cmd == "purge":
+    elif match.command("purge"):
         await purge_cmd.purge(room, event, match)
+
 
 bot.run()
