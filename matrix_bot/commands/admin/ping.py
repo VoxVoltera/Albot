@@ -13,7 +13,7 @@ def register(bot):
 
             await bot.api.send_text_message(
                 room.room_id,
-                "🏓 Pinging..."
+                "Pinging..."
             )
 
             end_time = time.perf_counter()
@@ -21,5 +21,5 @@ def register(bot):
 
             await bot.api.send_text_message(
                 room.room_id,
-                f"🏓 Pong! Roundtrip latency: {latency_ms:.2f} ms"
+                f"Roundtrip latency: {latency_ms:.2f} ms"
             )
