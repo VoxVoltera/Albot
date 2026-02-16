@@ -15,7 +15,8 @@ class Rank:
         match = re.search(r'href="https://matrix\.to/#/(.*?)">', data)
         if match:
             matrix_id = match.group(1)
-        return matrix_id
+            print(f"username = {matrix_id}")
+            return matrix_id
 
 
 
@@ -43,10 +44,9 @@ class Rank:
         room_id = room.room_id
         message = match.args()
 
-        temp = self.parse_username(message[1])
 
         # Target user: first argument, or fallback to sender
-        target_user = temp if len(temp) >= 1 else event.sender
+        target_user = message[0] if len(message) >= 1 else event.sender
 
         # Get or initialize user data
         data = level_storage.get_user_data(room_id, target_user)
@@ -76,7 +76,7 @@ class Rank:
         messages = int(message[2])
 
             # Optional: check admin
-        if not await self.is_admin(room.room_id, event.sender):
+        if await self.is_admin(room.room_id, event.sender):
             await self.bot.api.send_text_message(room.room_id, "You need admin to run this command.")
             return
 
@@ -104,7 +104,7 @@ class Rank:
 
 
             # Admin check
-        if not await self.is_admin(room.room_id, event.sender):
+        if await self.is_admin(room.room_id, event.sender):
             return
 
         target_user = self.parse_username(message[1])
