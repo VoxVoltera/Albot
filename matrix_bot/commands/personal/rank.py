@@ -10,7 +10,7 @@ def register(bot):
 
 
 
-    async def rank_on_event(room, event):
+    async def on_event(room, event):
 
 
         room_id = room.room_id
@@ -123,7 +123,7 @@ def register(bot):
         for i, (user_id, user_data) in enumerate(sorted_users[:15], start=1):
             lines.append(f"{i:2d}. {user_id} — {user_data['xp']} XP")
 
-            await bot.api.send_text_event(room_id, "\n".join(lines))
+        await bot.api.send_text_event(room_id, "\n".join(lines))
 
 async def is_admin(bot, room_id, user_id):
     try:

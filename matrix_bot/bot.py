@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from commands.admin import ping, echo, purge
 from commands.fun import pp
-from commands.personal.rank import rank_command, initrank_command,  removerank_command,  leaderboard_command, rank_on_event
+from commands.personal.rank import rank
 
 
 load_dotenv()
@@ -36,21 +36,30 @@ async def room_joined(room_id):
 
         cmd = match.command.lower()
 
-        rank_on_event(room, event)
+        rank.register.on_event(room, event)
 
         if cmd == "rank":
-            await rank_command(room, event, match)
+            await rank.register.rank_command(room, event, match)
         elif cmd == "initrank":
-            await initrank_command(room, event, match)
+            await rank.register.initrank_command(room, event, match)
         elif cmd == "removerank":
-            await removerank_command(room, event, match)
+            await rank.register.removerank_command(room, event, match)
         elif cmd == "leaderboard":
-            await leaderboard_command(room, event, match)
+            await rank.register.leaderboard_command(room, event, match)
+        elif cmd == "pp":
+            await pp.register.pp(room, event, match)
+        elif cmd == "ping":
+            await ping.register.ping(room, event, match)
+        elif cmd == "echo":
+            await echo.register.echo(room, event, match)
+        elif cmd == "purge":
+            await purge.register.purge(room, event, match)
 
 ping.register(bot)
 purge.register(bot)
 echo.register(bot)
 pp.register(bot)
+rank.register(bot)
 
 bot.run()
 
