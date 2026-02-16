@@ -18,15 +18,15 @@ def register(bot):
                 if len(args) == 0:
                     pp_name = event.sender
                 else:
-                    pp_name = args[0]
+                    pp_name = args[1]
 
                 # Deterministic random based on username
                 random.seed(pp_name)
                 pp_int = random.randint(1, 51)
 
                 # Special users
-                #if pp_name == "@voxvoltera:matrix.voxvoltera.com" or pp_name == "@lilleole:matrix.voxvoltera.com":
-                #    pp_int = 67
+                if pp_name == "@voxvoltera:matrix.voxvoltera.com" or pp_name == "@lilleole:matrix.voxvoltera.com":
+                    pp_int = 67
 
                 pp_size = f"8{'=' * pp_int}D"
 
