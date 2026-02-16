@@ -9,7 +9,7 @@ config.load_toml("conf.toml")
 
 creds = botlib.Creds(
     homeserver=os.getenv("SERVER_URL"),
-    username=os.getenv("USERNAME"),
+    username="albot",
     password=os.getenv("PASSWORD"),
     session_stored_file="session.txt"
     )

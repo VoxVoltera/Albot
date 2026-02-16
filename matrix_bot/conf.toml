@@ -2,7 +2,7 @@
 timeout = 65536
 join_on_invite = true
 encryption_enabled = true
-emoji_verify = true
+emoji_verify = false
 ignore_unverified_devices = false
 store_path = "./crypto_store/"
 allowlist = []
