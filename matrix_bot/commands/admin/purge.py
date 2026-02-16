@@ -5,7 +5,7 @@ DEFAULT_LIMIT = 10
 MAX_LIMIT = 100
 
 
-def register(bot):
+class PURGE(bot):
 
     async def purge(room, event, match):
 
@@ -16,7 +16,7 @@ def register(bot):
             try:
                 limit = int(args[0])
             except (ValueError, TypeError):
-                await bot.api.send_text_message(
+                await self.bot.api.send_text_message(
                     room.room_id,
                     "⚠️ Usage: !purge <number> (example: !purge 20)"
                 )
@@ -28,10 +28,10 @@ def register(bot):
         if limit > MAX_LIMIT:
             limit = MAX_LIMIT
 
-        await bot.api.send_text_message(room.room_id, f"🧹 Purging {limit} message(s)...")
+        await self.bot.api.send_text_message(room.room_id, f"🧹 Purging {limit} message(s)...")
 
-        # Access underlying nio AsyncClient (common in simplematrixbotlib)
-        client = bot.api.async_client
+        # Access underlying nio AsyncClient (common in simplematrixself.botlib)
+        client = self.bot.api.async_client
 
         # Start from the current event id if available
         start = getattr(event, "event_id", None)
@@ -39,10 +39,10 @@ def register(bot):
             start = getattr(room.timeline[-1], "event_id", None)
 
         if not start:
-            await bot.api.send_text_message(room.room_id, "⚠️ Could not determine where to start in history.")
+            await self.bot.api.send_text_message(room.room_id, "⚠️ Could not determine where to start in history.")
             return
 
-        # Fetch a bit more than needed (skip non-message events / command / bot msgs)
+        # Fetch a bit more than needed (skip non-message events / command / self.bot msgs)
         fetch_limit = min(limit + 30, MAX_LIMIT + 30)
 
         try:
@@ -53,16 +53,16 @@ def register(bot):
                 direction="b",
             )
         except Exception as e:
-            await bot.api.send_text_message(room.room_id, f"⚠️ Failed to fetch history: {e}")
+            await self.bot.api.send_text_message(room.room_id, f"⚠️ Failed to fetch history: {e}")
             return
 
         events = getattr(resp, "chunk", []) or []
         if not events:
-            await bot.api.send_text_message(room.room_id, "⚠️ No messages found to purge.")
+            await self.bot.api.send_text_message(room.room_id, "⚠️ No messages found to purge.")
             return
 
         redacted = 0
-        bot_user_id = getattr(client, "user_id", None)
+        self.bot_user_id = getattr(client, "user_id", None)
 
         for ev in events:
             # Skip the command message itself
@@ -73,8 +73,8 @@ def register(bot):
             if getattr(ev, "type", None) != "m.room.message":
                 continue
 
-            # Skip the bot's own messages (optional but usually desired)
-            if bot_user_id and getattr(ev, "sender", None) == bot_user_id:
+            # Skip the self.bot's own messages (optional but usually desired)
+            if self.bot_user_id and getattr(ev, "sender", None) == self.bot_user_id:
                 continue
 
             ev_id = getattr(ev, "event_id", None)
@@ -96,5 +96,5 @@ def register(bot):
             if redacted >= limit:
                 break
 
-        await bot.api.send_text_message(room.room_id, f"✅ Purged {redacted} message(s).")
+        await self.bot.api.send_text_message(room.room_id, f"✅ Purged {redacted} message(s).")
 

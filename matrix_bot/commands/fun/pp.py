@@ -2,7 +2,7 @@ import random
 import simplematrixbotlib as botlib
 
 
-def register(bot):
+class PP(bot):
 
     async def pp(room, event, match):
 
@@ -37,7 +37,7 @@ def register(bot):
             f"*{pp_rating} pp*"
         )
 
-        await bot.api.send_text_message(
+        await self.bot.api.send_text_message(
             room.room_id,
             message
         )

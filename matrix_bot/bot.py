@@ -1,7 +1,7 @@
 import simplematrixbotlib as botlib
 import os
 from dotenv import load_dotenv
-from commands.Admin import ping, echo, purge
+from commands.admin import ping, echo, purge
 from commands.fun import pp
 from commands.personal import rank
 
@@ -60,7 +60,7 @@ async def all_commands(room, event):
     elif cmd == "purge":
         await purge.register.purge(room, event, match)
 
-    rank.register.on_event(room, event)
+    #rank.register.on_event(room, event)
 
 
 

@@ -1,6 +1,6 @@
 
 
-def register(bot):
+class ECHO(bot):
 
     async def echo(room, event, match):
         print(f'event {event}')
@@ -9,7 +9,7 @@ def register(bot):
         if len(message) == 0:
             message = 'no message provided'
         message = " ".join(message)
-        await bot.api.send_text_message(
+        await self.bot.api.send_text_message(
             room.room_id,
             f"{message}"
         )
