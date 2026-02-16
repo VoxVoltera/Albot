@@ -2,6 +2,7 @@ import simplematrixbotlib as botlib
 import os
 from dotenv import load_dotenv
 from commands.admin import ping, echo, purge
+from commands.fun import pp
 from commands.personal import rank
 
 
@@ -29,7 +30,8 @@ async def room_joined(room_id):
 ping.register(bot)
 purge.register(bot)
 echo.register(bot)
-rank.register(bot)
+pp.register(bot)
+#rank.register(bot)
 
 bot.run()
 
