@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 config = botlib.Config()
-config.load_toml("conf.toml")
+config.load_toml("/app/conf.toml")
 
 creds = botlib.Creds(
     homeserver=os.getenv("SERVER_URL"),
@@ -18,8 +18,6 @@ bot = botlib.Bot(
     creds=creds,
     config=config
 )
-
-
 
 bot.run()
 

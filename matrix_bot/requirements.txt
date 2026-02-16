@@ -1,6 +1,5 @@
 simplematrixbotlib==2.12.3
 python-dotenv==0.21.1
 httpx==0.28.1
-matrix-nio==0.25.2
 matrix-nio[e2e]==0.24.0
 
