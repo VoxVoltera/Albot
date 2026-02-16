@@ -1,7 +1,7 @@
 import json
 import os
 
-DATA_DIR = "/code/data"
+DATA_DIR = "/data"
 
 def _get_path(guild_id):
     return os.path.join(DATA_DIR, f"{guild_id}-level.json")

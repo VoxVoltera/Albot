@@ -1,7 +1,7 @@
 import json
 import os
 
-DATA_DIR = "/code/data"
+DATA_DIR = "/data"
 
 def _get_path(room_id):
     return os.path.join(DATA_DIR, f"{room_id}-level.json")
