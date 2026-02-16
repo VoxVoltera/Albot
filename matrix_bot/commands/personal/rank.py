@@ -24,7 +24,6 @@ def register(bot):
             prev_level = calc_level(data["xp"])
 
             data["xp"] += random.randint(0, 5)
-            data["events"] += 1
 
             new_level = calc_level(data["xp"])
 
