@@ -15,7 +15,8 @@ class Rank:
         match = re.search(r'href="https://matrix\.to/#/(.*?)">', data)
         if match:
             matrix_id = match.group(1)
-        return matrix_id
+            print(f"username = {matrix_id}")
+            return matrix_id
 
 
 
