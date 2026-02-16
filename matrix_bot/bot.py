@@ -27,33 +27,33 @@ bot = botlib.Bot(
 async def room_joined(room_id):
     print(f"This account is a member of a room with the id {room_id}")
 
-    @bot.listener.on_message_event
-    async def all_commands(room, event):
-        match = botlib.MessageMatch(room, event, bot, "!")
+@bot.listener.on_message_event
+async def all_commands(room, event):
+    match = botlib.MessageMatch(room, event, bot, "!")
 
-        if not match.is_not_from_this_bot():
-            return
+    if not match.is_not_from_this_bot():
+        return
 
-        cmd = match.command.lower()
+    cmd = match.command.lower()
 
-        rank.register.on_event(room, event)
+    rank.register.on_event(room, event)
 
-        if cmd == "rank":
-            await rank.register.rank_command(room, event, match)
-        elif cmd == "initrank":
-            await rank.register.initrank_command(room, event, match)
-        elif cmd == "removerank":
-            await rank.register.removerank_command(room, event, match)
-        elif cmd == "leaderboard":
-            await rank.register.leaderboard_command(room, event, match)
-        elif cmd == "pp":
-            await pp.register.pp(room, event, match)
-        elif cmd == "ping":
-            await ping.register.ping(room, event, match)
-        elif cmd == "echo":
-            await echo.register.echo(room, event, match)
-        elif cmd == "purge":
-            await purge.register.purge(room, event, match)
+    if cmd == "rank":
+        await rank.register.rank_command(room, event, match)
+    elif cmd == "initrank":
+        await rank.register.initrank_command(room, event, match)
+    elif cmd == "removerank":
+        await rank.register.removerank_command(room, event, match)
+    elif cmd == "leaderboard":
+        await rank.register.leaderboard_command(room, event, match)
+    elif cmd == "pp":
+        await pp.register.pp(room, event, match)
+    elif cmd == "ping":
+        await ping.register.ping(room, event, match)
+    elif cmd == "echo":
+        await echo.register.echo(room, event, match)
+    elif cmd == "purge":
+        await purge.register.purge(room, event, match)
 
 ping.register(bot)
 purge.register(bot)
