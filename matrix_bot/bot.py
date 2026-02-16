@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from commands.admin import ping, echo, purge
 from commands.fun import pp
-from commands.personal.rank import rank
+from commands.personal import rank
 
 
 load_dotenv()
