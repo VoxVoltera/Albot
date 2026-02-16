@@ -67,7 +67,7 @@ class Rank:
         messages = int(message[1])
 
             # Optional: check admin
-        if not await self.is_admin(self.bot, room.room_id, event.sender):
+        if not await self.is_admin(room.room_id, event.sender):
             await self.bot.api.send_text_message(room.room_id, "You need admin to run this command.")
             return
 
@@ -95,7 +95,7 @@ class Rank:
 
 
             # Admin check
-        if not await self.is_admin(self.bot, room.room_id, event.sender):
+        if not await self.is_admin(room.room_id, event.sender):
             return
 
         target_user = message[0]
@@ -131,9 +131,9 @@ class Rank:
 
         await self.bot.api.send_text_event(room_id, "\n".join(lines))
 
-    async def is_admin(self, bot, room_id, user_id):
+    async def is_admin(self, room_id, user_id):
         try:
-            power = await bot.api.get_user_power_level(room_id, user_id)
+            power = await self.bot.api.get_user_power_level(room_id, user_id)
             return power >= 50  # mod 50 admin 100
         except:
             return False
