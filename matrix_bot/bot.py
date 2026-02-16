@@ -36,15 +36,17 @@ async def all_commands(room, event):
 
     cmd = match.command
 
+    # Register once
+    rank_plugin = rank.register(bot)
 
     if cmd == "rank":
-        await rank.register(bot).rank_command(room, event, match)
+        await rank_plugin.rank_command(room, event, match)
     elif cmd == "initrank":
-        await rank.register(bot).initrank_command(room, event, match)
+        await rank_plugin.initrank_command(room, event, match)
     elif cmd == "removerank":
-        await rank.register(bot).removerank_command(room, event, match)
+        await rank_plugin.removerank_command(room, event, match)
     elif cmd == "leaderboard":
-        await rank.register(bot).leaderboard_command(room, event, match)
+        await rank_plugin.leaderboard_command(room, event, match)
     elif cmd == "pp":
         await pp.register(bot).pp(room, event, match)
     elif cmd == "ping":
@@ -54,7 +56,10 @@ async def all_commands(room, event):
     elif cmd == "purge":
         await purge.register(bot).purge(room, event, match)
 
-    rank.register(bot).on_event(room, event)
+    # Only call if register succeeded and method exists
+    if rank_plugin is not None and hasattr(rank_plugin, "on_event"):
+        rank_plugin.on_event(room, event)
+
 
 
 bot.run()
