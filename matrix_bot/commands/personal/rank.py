@@ -8,7 +8,7 @@ def register(bot):
         return int((xp / 42) ** 0.5)
 
 
-    @bot.listener.on_event_event
+    @bot.listener.on_message_event
     async def on_event(room, event):
 
         # Ignore events from the bot itself
@@ -42,7 +42,7 @@ def register(bot):
                 f"🎉 **{user_id}** just leveled up to **Level {new_level}**!"
             )
 
-    @bot.listener.on_event_event
+    @bot.listener.on_message_event
     async def rank_command(room, event):
         if not hasattr(event, "content") or not hasattr(event.content, "body"):
             return
@@ -66,7 +66,7 @@ def register(bot):
             f"**{target_user}**\nLevel: `{level}`\nXP: `{data['xp']}`"
         )
 
-    @bot.listener.on_event_event
+    @bot.listener.on_message_event
     async def initrank_command(room, event):
         if not hasattr(event, "content") or not hasattr(event.content, "body"):
             return
@@ -97,7 +97,7 @@ def register(bot):
             f"✅ Initialized rank for **{target_user}** to `{events}` events."
         )
 
-    @bot.listener.on_event_event
+    @bot.listener.on_message_event
     async def removerank_command(room, event):
         if not hasattr(event, "content") or not hasattr(event.content, "body"):
             return
@@ -133,7 +133,7 @@ def register(bot):
             f"🗑️ Removed `{events}` events from {target_user}'s rank."
         )
 
-    @bot.listener.on_event_event
+    @bot.listener.on_message_event
     async def leaderboard_command(room, event):
         if not hasattr(event, "content") or not hasattr(event.content, "body"):
             return
