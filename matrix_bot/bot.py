@@ -2,6 +2,7 @@ import simplematrixbotlib as botlib
 import os
 from dotenv import load_dotenv
 from commands.admin import ping
+from commands.personal import rank
 
 load_dotenv()
 
@@ -25,6 +26,7 @@ async def room_joined(room_id):
     print(f"This account is a member of a room with the id {room_id}")
 
 ping.register(bot)
+rank.register(bot)
 
 bot.run()
 
