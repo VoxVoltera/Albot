@@ -4,7 +4,7 @@ import asyncio
 import json
 import os
 
-STARBOARD_FILE = "/code/data/starboard-posted.json"
+STARBOARD_FILE = "/data/starboard-posted.json"
 
 class StarBoard(commands.Cog):
     def __init__(self, bot):
