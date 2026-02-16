@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from commands.admin import ping
 from commands.personal import rank
 
+
 load_dotenv()
 
 config = botlib.Config()
