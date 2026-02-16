@@ -32,7 +32,7 @@ class Rank:
             )
 
     
-    async def rank_command(room, event, match):
+    async def rank_command(self,room, event, match):
         room_id = room.room_id
 
         # Target user: first argument, or fallback to sender
