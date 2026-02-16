@@ -22,8 +22,10 @@ class pp(commands.Cog):
 
         random.seed(pp)
         pp_int = random.randint(1, 51)
+        if user == 'lilleole' or user = 'voxvoltera':
+            pp_int = 67
         pp_size = f"8{'=' * pp_int}D"
-        pp_rating = "smol" if pp_int < 18 else "avg" if pp_int < 36 else "chungo"
+        pp_rating = "smol" if pp_int < 18 else "avg" if pp_int < 36 else "chungo" if pp_int < 52 else "brainrot"
 
         embed = discord.Embed(
             color=discord.Color.green(),
