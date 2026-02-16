@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from commands.admin import ping, echo
 
+
 load_dotenv()
 
 config = botlib.Config()
