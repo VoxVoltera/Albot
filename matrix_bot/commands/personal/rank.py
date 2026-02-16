@@ -34,9 +34,10 @@ class Rank:
     
     async def rank_command(self,room, event, match):
         room_id = room.room_id
+        message = match.args()
 
         # Target user: first argument, or fallback to sender
-        target_user = match.args[0] if len(match.args) >= 1 else event.sender
+        target_user = message[0] if len(message) >= 1 else event.sender
 
         # Get or initialize user data
         data = level_storage.get_user_data(room_id, target_user)
@@ -56,12 +57,13 @@ class Rank:
                 # At this point, match.command.lower() == "initrank"
                 # match.args contains a list of arguments
                 # Example: "!initrank @user:server 50" -> match.args = ["@user:server", "50"]
-        if len(match.args) != 2:
+        message = match.args()
+        if len(message) != 2:
             await self.bot.api.send_text_message(room.room_id, "Usage: !initrank @user messages")
             return
 
-        target_user = match.args[0]
-        messages = int(match.args[1])
+        target_user = message[0]
+        messages = int(message[1])
 
             # Optional: check admin
         if not await self.is_admin(self.bot, room.room_id, event.sender):
@@ -85,7 +87,8 @@ class Rank:
                 # At this point, match.command.lower() == "removerank"
                 # match.args contains a list of arguments
                 # Example: "!removerank @user:server 50" -> match.args = ["@user:server", "50"]
-        if len(match.args) != 2:
+        message = match.args()
+        if len(message) != 2:
             await self.bot.api.send_text_event(room.room_id, "Usage: !removerank @user events")
             return
 
@@ -94,8 +97,8 @@ class Rank:
         if not await self.is_admin(self.bot, room.room_id, event.sender):
             return
 
-        target_user = match.args[0]
-        events = int(match.args[1])
+        target_user = message[0]
+        events = int(message[1])
         data = level_storage.get_user_data(room.room_id, target_user)
         if not data:
             data = {"xp": 0, "events": 0}
