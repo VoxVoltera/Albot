@@ -58,6 +58,7 @@ class Rank:
                 # match.args contains a list of arguments
                 # Example: "!initrank @user:server 50" -> match.args = ["@user:server", "50"]
         message = match.args()
+        print(f"message: {message}")
         if len(message) != 2:
             await self.bot.api.send_text_message(room.room_id, "Usage: !initrank @user messages")
             return
@@ -130,7 +131,7 @@ class Rank:
 
         await self.bot.api.send_text_event(room_id, "\n".join(lines))
 
-    async def is_admin(bot, room_id, user_id):
+    async def is_admin(self, bot, room_id, user_id):
         try:
             power = await bot.api.get_user_power_level(room_id, user_id)
             return power >= 50  # mod 50 admin 100
