@@ -5,9 +5,11 @@ DEFAULT_LIMIT = 10
 MAX_LIMIT = 100
 
 
-class PURGE(bot):
+class Purge:
+    def __init__(self, bot):
+        self.bot = bot
 
-    async def purge(room, event, match):
+    async def purge(self, room, event, match):
 
         args = match.args() or []
 

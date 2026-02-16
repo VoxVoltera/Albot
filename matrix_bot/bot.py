@@ -1,10 +1,12 @@
-import simplematrixbotlib as botlib
 import os
 from dotenv import load_dotenv
-from commands.admin import ping, echo, purge
-from commands.fun import pp
-from commands.personal import rank
+import simplematrixbotlib as botlib
 
+from commands.admin.ping import Ping
+from commands.admin.echo import Echo
+from commands.admin.purge import Purge
+from commands.fun.pp import PP
+from commands.personal.rank import Rank
 
 load_dotenv()
 
@@ -23,11 +25,12 @@ bot = botlib.Bot(
     config=config
 )
 
-rank.register(bot)  # handles XP + all rank commands
-pp.register(bot)
-ping.register(bot)
-echo.register(bot)
-purge.register(bot)
+# Instantiate command handlers (classes)
+#rank_cmd = Rank(bot)     # handles XP + all rank commands
+pp_cmd = PP(bot)
+ping_cmd = Ping(bot)
+echo_cmd = Echo(bot)
+purge_cmd = Purge(bot)
 
 @bot.listener.on_startup
 async def room_joined(room_id):
@@ -42,27 +45,21 @@ async def all_commands(room, event):
 
     cmd = match.command
 
-
-    if cmd == "rank":
-        await rank.register.rank_command(room, event, match)
+    # if cmd == "rank":
+        # await rank_cmd.rank_command(room, event, match)
     elif cmd == "initrank":
-        await rank.register.initrank_command(room, event, match)
+        await rank_cmd.initrank_command(room, event, match)
     elif cmd == "removerank":
-        await rank.register.removerank_command(room, event, match)
+        await rank_cmd.removerank_command(room, event, match)
     elif cmd == "leaderboard":
-        await rank.register.leaderboard_command(room, event, match)
+        await rank_cmd.leaderboard_command(room, event, match)
     elif cmd == "pp":
-        await pp.register.pp(room, event, match)
+        await pp_cmd.pp(room, event, match)
     elif cmd == "ping":
-        await ping.register.ping(room, event, match)
+        await ping_cmd.ping(room, event, match)
     elif cmd == "echo":
-        await echo.register.echo(room, event, match)
+        await echo_cmd.echo(room, event, match)
     elif cmd == "purge":
-        await purge.register.purge(room, event, match)
-
-    #rank.register.on_event(room, event)
-
-
+        await purge_cmd.purge(room, event, match)
 
 bot.run()
-

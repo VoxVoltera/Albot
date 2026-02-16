@@ -1,8 +1,9 @@
 
+class Ping:
+    def __init__(self, bot):
+        self.bot = bot
 
-class ECHO(bot):
-
-    async def echo(room, event, match):
+    async def echo(self, room, event, match):
         print(f'event {event}')
 
         message = match.args()

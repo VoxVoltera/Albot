@@ -1,15 +1,15 @@
+# commands/admin/ping.py
 import time
 
-class PING(bot):
+class Ping:
+    def __init__(self, bot):
+        self.bot = bot
 
-    async def ping(room, event, match):
-        print(f'event {event}')
+    async def ping(self, room, event, match):
+        print(f"event {event}")
         start_time = time.perf_counter()
 
-        await self.bot.api.send_text_message(
-            room.room_id,
-            "Pinging..."
-        )
+        await self.bot.api.send_text_message(room.room_id, "Pinging...")
 
         end_time = time.perf_counter()
         latency_ms = (end_time - start_time) * 1000
@@ -18,4 +18,3 @@ class PING(bot):
             room.room_id,
             f"Roundtrip latency: {latency_ms:.2f} ms"
         )
-        return

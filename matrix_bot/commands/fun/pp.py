@@ -2,9 +2,11 @@ import random
 import simplematrixbotlib as botlib
 
 
-class PP(bot):
+class Pp:
+    def __init__(self, bot):
+        self.bot = bot
 
-    async def pp(room, event, match):
+    async def pp(self, room, event, match):
 
         args = match.args()
         if len(args) == 0:
