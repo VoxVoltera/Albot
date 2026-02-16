@@ -12,7 +12,7 @@ def register(bot):
     async def on_event(room, event):
 
         # Ignore events from the bot itself
-        if event.sender == bot.user_id:
+        if match.is_not_from_this_bot():
             return
 
         # Ignore non-text events
