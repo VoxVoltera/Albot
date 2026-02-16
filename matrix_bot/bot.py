@@ -42,12 +42,6 @@ async def all_commands(room, event):
 
     cmd = match.command
 
-    # Register once
-    rank.register(bot)
-    pp.register(bot)
-    ping.register(bot)
-    echo.register(bot)
-    purge.register(bot)
 
     if cmd == "rank":
         await rank.register.rank_command(room, event, match)
