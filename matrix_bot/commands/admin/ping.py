@@ -4,11 +4,12 @@ def register(bot):
 
     @bot.listener.on_message_event
     async def ping(room, event):
+        print(f'event {event}')
         # Ignore our own messages
         if event.sender == bot.creds.username:
             return
 
-        if event.body.strip().lower() == "/ping":
+        if event.body.strip().lower() == "!ping":
             start_time = time.perf_counter()
 
             await bot.api.send_text_message(
