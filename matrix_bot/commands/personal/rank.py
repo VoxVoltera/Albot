@@ -1,5 +1,5 @@
 import random
-from levels import level_storage
+from commands.personal.levels import level_storage
 
 
 def register(bot):
