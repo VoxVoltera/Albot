@@ -20,7 +20,7 @@ creds = botlib.Creds(
 
 bot = botlib.Bot(
     creds=creds,
-    config=configeaderboard
+    config=config
 )
 
 @bot.listener.on_startup
