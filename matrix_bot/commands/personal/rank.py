@@ -1,6 +1,5 @@
 import random
 from commands.personal.levels import level_storage
-import simplematrixbotlib as botlib
 
 
 
