@@ -1,7 +1,7 @@
 import simplematrixbotlib as botlib
 import os
 from dotenv import load_dotenv
-from commands.admin import ping
+from commands.admin import ping, echo
 from commands.personal import rank
 
 
