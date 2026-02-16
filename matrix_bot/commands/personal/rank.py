@@ -1,5 +1,6 @@
 import random
 from commands.personal.levels import level_storage
+import re
 
 
 class Rank:
@@ -9,6 +10,12 @@ class Rank:
 
     def calc_level(self, xp):
         return int((xp / 42) ** 0.5)
+
+    def parse_username(self, data):
+        match = re.search(r'href="https://matrix\.to/#/(.*?)">', data)
+        if match:
+            matrix_id = match.group(1)
+        return matrix_id
 
 
 
@@ -36,8 +43,10 @@ class Rank:
         room_id = room.room_id
         message = match.args()
 
+        temp = self.parse_username(message[1])
+
         # Target user: first argument, or fallback to sender
-        target_user = message[0] if len(message) >= 1 else event.sender
+        target_user = temp if len(temp) >= 1 else event.sender
 
         # Get or initialize user data
         data = level_storage.get_user_data(room_id, target_user)
@@ -59,12 +68,12 @@ class Rank:
                 # Example: "!initrank @user:server 50" -> match.args = ["@user:server", "50"]
         message = match.args()
         print(f"message: {message}")
-        if len(message) != 2:
+        if len(message) != 3:
             await self.bot.api.send_text_message(room.room_id, "Usage: !initrank @user messages")
             return
 
-        target_user = message[0]
-        messages = int(message[1])
+        target_user = self.parse_username(message[1])
+        messages = int(message[2])
 
             # Optional: check admin
         if not await self.is_admin(room.room_id, event.sender):
@@ -89,7 +98,7 @@ class Rank:
                 # match.args contains a list of arguments
                 # Example: "!removerank @user:server 50" -> match.args = ["@user:server", "50"]
         message = match.args()
-        if len(message) != 2:
+        if len(message) != 3:
             await self.bot.api.send_text_event(room.room_id, "Usage: !removerank @user events")
             return
 
@@ -98,8 +107,8 @@ class Rank:
         if not await self.is_admin(room.room_id, event.sender):
             return
 
-        target_user = message[0]
-        events = int(message[1])
+        target_user = self.parse_username(message[1])
+        events = int(message[2])
         data = level_storage.get_user_data(room.room_id, target_user)
         if not data:
             data = {"xp": 0, "events": 0}
