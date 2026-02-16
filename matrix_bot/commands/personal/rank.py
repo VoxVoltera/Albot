@@ -10,44 +10,28 @@ def register(bot):
         return int((xp / 42) ** 0.5)
 
 
-    @bot.listener.on_message_event
-    async def on_event(room, event):
-        match = botlib.MessageMatch(room, event, bot, "!")
-        # Ignore events from the bot itself
-        if match.is_not_from_this_bot():
 
-            room_id = room.room_id
-            user_id = event.sender
+    async def rank_on_event(room, event):
 
-            data = level_storage.get_user_data(room_id, user_id)
 
-            prev_level = calc_level(data["xp"])
+        room_id = room.room_id
+        user_id = event.sender
 
-            data["xp"] += random.randint(0, 5)
+        data = level_storage.get_user_data(room_id, user_id)
 
-            new_level = calc_level(data["xp"])
+        prev_level = calc_level(data["xp"])
 
-            level_storage.set_user_data(room_id, user_id, data)
+        data["xp"] += random.randint(0, 5)
+        new_level = calc_level(data["xp"])
+        level_storage.set_user_data(room_id, user_id, data)
+        if new_level > prev_level:
+            await bot.api.send_text_event(
+                room_id,
+                f"🎉 **{user_id}** just leveled up to **Level {new_level}**!"
+            )
 
-            if new_level > prev_level:
-                await bot.api.send_text_event(
-                    room_id,
-                    f"🎉 **{user_id}** just leveled up to **Level {new_level}**!"
-                )
-
-    @bot.listener.on_message_event
-    async def rank_command(room, event):
-        match = botlib.MessageMatch(room, event, bot, "!")
-
-        # Ignore messages from the bot itself
-        if not match.is_not_from_this_bot():
-            return
-
-        # Only handle !rank
-        if match.command != "rank":
-            print("seb likes men")  # debug print
-            return
-
+    
+    async def rank_command(room, event, match):
         room_id = room.room_id
 
         # Target user: first argument, or fallback to sender
@@ -65,105 +49,80 @@ def register(bot):
             f"**{target_user}**\nLevel: `{level}`\nXP: `{data['xp']}`"
         )
 
-    @bot.listener.on_message_event
-    async def initrank_command(room, event):
-        match = botlib.MessageMatch(room, event, bot, "!")
-        # Ignore events from the bot itself
-        if match.is_not_from_this_bot():
 
-            if not match.command == "initrank":
-                print("seb likes men")  # debug print
-                return
+    async def initrank_command(room, event, match):
 
-                # At this point, match.command == "initrank"
+                # At this point, match.command.lower() == "initrank"
                 # match.args contains a list of arguments
                 # Example: "!initrank @user:server 50" -> match.args = ["@user:server", "50"]
-            if len(match.args) != 2:
-                await bot.api.send_text_message(room.room_id, "Usage: !initrank @user messages")
-                return
+        if len(match.args) != 2:
+            await bot.api.send_text_message(room.room_id, "Usage: !initrank @user messages")
+            return
 
-            target_user = match.args[0]
-            messages = int(match.args[1])
+        target_user = match.args[0]
+        messages = int(match.args[1])
 
             # Optional: check admin
-            if not await is_admin(bot, room.room_id, event.sender):
-                await bot.api.send_text_message(room.room_id, "You need admin to run this command.")
-                return
+        if not await is_admin(bot, room.room_id, event.sender):
+            await bot.api.send_text_message(room.room_id, "You need admin to run this command.")
+            return
 
             # Generate XP and store
-            xp = sum(random.randint(0, 5) for _ in range(messages))
-            data = {"xp": xp, "messages": messages}
-            level_storage.set_user_data(room.room_id, target_user, data)
+        xp = sum(random.randint(0, 5) for _ in range(messages))
+        data = {"xp": xp, "messages": messages}
+        level_storage.set_user_data(room.room_id, target_user, data)
 
-            await bot.api.send_text_message(
-                room.room_id,
-                f"✅ Initialized rank for **{target_user}** to `{messages}` messages."
-            )
-            print("it worked")
+        await bot.api.send_text_message(
+            room.room_id,
+            f"✅ Initialized rank for **{target_user}** to `{messages}` messages."
+        )
+        print("it worked")
 
     @bot.listener.on_message_event
-    async def removerank_command(room, event):
-        match = botlib.MessageMatch(room, event, bot, "!")
-        # Ignore events from the bot itself
-        if match.is_not_from_this_bot():
+    async def removerank_command(room, event, match):
 
-
-            if not match.command == "removerank":
-                print("seb likes men")  # debug print
-                return
-
-                # At this point, match.command == "removerank"
+                # At this point, match.command.lower() == "removerank"
                 # match.args contains a list of arguments
                 # Example: "!removerank @user:server 50" -> match.args = ["@user:server", "50"]
-            if len(match.args) != 2:
-                await bot.api.send_text_event(room.room_id, "Usage: !removerank @user events")
-                return
+        if len(match.args) != 2:
+            await bot.api.send_text_event(room.room_id, "Usage: !removerank @user events")
+            return
 
 
             # Admin check
-            if not await is_admin(bot, room.room_id, event.sender):
-                return
+        if not await is_admin(bot, room.room_id, event.sender):
+            return
 
-            target_user = match.args[0]
-            events = int(match.args[1])
+        target_user = match.args[0]
+        events = int(match.args[1])
+        data = level_storage.get_user_data(room.room_id, target_user)
+        if not data:
+            data = {"xp": 0, "events": 0}
 
-            data = level_storage.get_user_data(room.room_id, target_user)
-            if not data:
-                data = {"xp": 0, "events": 0}
+        data["events"] = max(0, data["events"] - events)
+        data["xp"] = max(0, data["xp"] - events * 3)  # Approx average XP
 
-            data["events"] = max(0, data["events"] - events)
-            data["xp"] = max(0, data["xp"] - events * 3)  # Approx average XP
+        level_storage.set_user_data(room.room_id, target_user, data)
 
-            level_storage.set_user_data(room.room_id, target_user, data)
-
-            await bot.api.send_text_event(
-                room.room_id,
-                f"🗑️ Removed `{events}` events from {target_user}'s rank."
-            )
-
-    @bot.listener.on_message_event
-    async def leaderboard_command(room, event):
-        match = botlib.MessageMatch(room, event, bot, "!")
-        # Ignore events from the bot itself
-        if match.is_not_from_this_bot():
-
-            if not match.command == "leaderboard":
-                print("seb likes men")  # debug print
-                return
+        await bot.api.send_text_event(
+            room.room_id,
+            f"🗑️ Removed `{events}` events from {target_user}'s rank."
+        )
 
 
-            room_id = room.room_id
-            data = level_storage.get_all_user_data(room_id)
+    async def leaderboard_command(room, event, match):
 
-            if not data:
-                await bot.api.send_text_event(room_id, "No data available.")
-                return
+        room_id = room.room_id
+        data = level_storage.get_all_user_data(room_id)
 
-            sorted_users = sorted(data.items(), key=lambda x: x[1]["xp"], reverse=True)
+        if not data:
+            await bot.api.send_text_event(room_id, "No data available.")
+            return
 
-            lines = ["Top 15 XP Leaderboard:"]
-            for i, (user_id, user_data) in enumerate(sorted_users[:15], start=1):
-                lines.append(f"{i:2d}. {user_id} — {user_data['xp']} XP")
+        sorted_users = sorted(data.items(), key=lambda x: x[1]["xp"], reverse=True)
+        lines = ["Top 15 XP Leaderboard:"]
+        for i, (user_id, user_data) in enumerate(sorted_users[:15], start=1):
+            lines.append(f"{i:2d}. {user_id} — {user_data['xp']} XP")
 
             await bot.api.send_text_event(room_id, "\n".join(lines))
 
