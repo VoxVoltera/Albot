@@ -7,7 +7,7 @@ class Rank:
         self.bot = bot
 
 
-    def calc_level(xp):
+    def calc_level(self, xp):
         return int((xp / 42) ** 0.5)
 
 
