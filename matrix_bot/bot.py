@@ -34,7 +34,7 @@ async def all_commands(room, event):
     if not match.is_not_from_this_bot():
         return
 
-    cmd = match.command.lower()
+    cmd = match.command
 
     rank.register.on_event(room, event)
 
